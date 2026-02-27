@@ -1,5 +1,4 @@
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: {#quarto-document-content .content role="main"}
-:::::::: {#title-block-header .quarto-title-block .default}
+
 ::: quarto-title
 # Does Passing or Rushing Lead to More NFL Wins? {#does-passing-or-rushing-lead-to-more-nfl-wins .title}
 :::
