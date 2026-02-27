@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Matt Smith">
+
+<title>Does Passing or Rushing Lead to More NFL Wins?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="Unstructured_vF2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Unstructured_vF2_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Unstructured_vF2_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Unstructured_vF2_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Unstructured_vF2_files/libs/quarto-html/popper.min.js"></script>
+<script src="Unstructured_vF2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Unstructured_vF2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Unstructured_vF2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Unstructured_vF2_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Unstructured_vF2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Unstructured_vF2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Unstructured_vF2_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Does Passing or Rushing Lead to More NFL Wins?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Matt Smith </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>For my final project for Unstructured Data Analytics, I wanted to enhance my knowledge on the NFL. I have always been an avid sports fan, but the NFL has been the one of four major sports leagues in America that I don’t follow. Maybe that’s becuase I am a DC sports fan and our owner through my childhood cared more about money then a good product on the field :).</p>
+<p>I found statistics on each NFL team from the 2025 season on sports-reference.com. These stats contain offensive and defensive metrics for each game, and ultimately showed if the team won or lost to go along with the stats each game.</p>
+<p>As a casual NFL viewer, I’ve always heard people ask during Super Bowls, “why don’t they just throw it more?” While I do have enough knowledge about football to understand why you can’t throw it every single play, it does bring up the question about if running or passing is more important when it comes to the outcome of the game. Would you rather establish the run or the pass game? I will be attempting to see if there’s statistical evidence to determine if the run or pass is more important to winning games.</p>
+<p>I first need to scrape the data from sports-reference.com. I notice the pattern in the url where the only difference between each teams pages is the three letter acryomn identifying each team. I create a list of the different teams acryomns to loop over later. I also looked through the column names and I know some would be converted to due to identical title names. I decided to make a dictionary of column headers I wanted to be a bit more clear, this will be put to use later after the scraping.</p>
+<div id="a4919bf3" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>teams <span class="op">=</span> [</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'crd'</span>, <span class="st">'atl'</span>, <span class="st">'rav'</span>, <span class="st">'buf'</span>, <span class="st">'car'</span>, <span class="st">'chi'</span>, <span class="st">'cin'</span>, <span class="st">'cle'</span>, <span class="st">'dal'</span>, <span class="st">'den'</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'det'</span>, <span class="st">'gnb'</span>, <span class="st">'htx'</span>, <span class="st">'clt'</span>, <span class="st">'jax'</span>, <span class="st">'kan'</span>, <span class="st">'sdg'</span>, <span class="st">'ram'</span>, <span class="st">'rai'</span>, <span class="st">'mia'</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min'</span>, <span class="st">'nwe'</span>, <span class="st">'nor'</span>, <span class="st">'nyg'</span>, <span class="st">'nyj'</span>, <span class="st">'phi'</span>, <span class="st">'pit'</span>, <span class="st">'sea'</span>, <span class="st">'sfo'</span>, <span class="st">'tam'</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'oti'</span>, <span class="st">'was'</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Some weird names in the column headers</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>renamed_dict <span class="op">=</span> {</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Unnamed: 5'</span>:<span class="st">'Home'</span>, <span class="st">'Rslt'</span>:<span class="st">'Win'</span>, <span class="st">'Pts'</span>: <span class="st">'Tm_PTS'</span>, <span class="st">'PtsO'</span>: <span class="st">'Opp_PTS'</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Cmp'</span>: <span class="st">'pCmp'</span>, <span class="st">'Att'</span>:<span class="st">'pAtt'</span>, <span class="st">'Cmp%'</span>: <span class="st">'pCmp%'</span>, <span class="st">'Yds'</span>: <span class="st">'passYds'</span>, <span class="st">'TD'</span>: <span class="st">'pTD'</span>, </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Y/A'</span>: <span class="st">'pY/A'</span>, <span class="st">'AY/A'</span>: <span class="st">'pAY/A'</span>, <span class="st">'Rate'</span>:<span class="st">'pRate'</span>, <span class="st">'Yds.1'</span>:<span class="st">'SaclYds'</span>, <span class="st">'Att.1'</span>:<span class="st">'rAtt'</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Yds.2'</span>:<span class="st">'rushYds'</span>, <span class="st">'TD.1'</span>:<span class="st">'rTD'</span>, <span class="st">'Y/A.1'</span>:<span class="st">'rY/A'</span>, <span class="st">'Yds.3'</span>:<span class="st">'PntYds'</span>, <span class="st">'Pass'</span>:<span class="st">'fdPass'</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Rsh'</span>:<span class="st">'fdRush'</span>, <span class="st">'Pen'</span>:<span class="st">'fdPen'</span>, <span class="st">'Pen.1'</span>:<span class="st">'Pen'</span>, <span class="st">'Yds.4'</span>:<span class="st">'PenYds'</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This indentifies I just want last year’s data.</p>
+<div id="ffe67af8" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>seasons <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2025</span>, <span class="dv">2026</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This code runs the scraper. The first for loop will go over every season in the range of seasons I identify, which in this case is just the one. The second for loop will look at for every season all 32 teams and scrap their statistics for each of their 17 regular season games. A team dataframe will get created each iteration, and that will be concated to the nfl dataframe, which is what we will be using for this project.</p>
+<p>This code block was run in my Apple Computer’s Terminal, due to issues with VS Code</p>
+<div id="5921d666" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nfl_df <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>team <span class="op">=</span> teams[<span class="dv">0</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>season <span class="op">=</span> seasons[<span class="dv">0</span>]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cookie <span class="op">=</span>  <span class="st">'is_live=true; osano_consentmanager_uuid=94d27b52-7498-458a-bcd1-7df7bed7cf1e; _ga=GA1.1.1647437913.1771899332; hubspotutk=058fec56e465da8d0f2ccf770d90ae4a; __hssrc=1; _li_dcdm_c=.pro-football-reference.com; _lc2_fpi=09239dd740e1--01kj6pwg974yze1ds2xfa0z8fy; _lc2_fpi_meta=%7B%22w</span><span class="sc">%22%</span><span class="st">3A1771899339047%7D; cookie=07fd5b70-1339-46a8-abe7-4fa5c2c0b1b9; _lr_env_src_ats=false; _pubcid=2b87279c-ad1a-4412-b9a4-63e8ebba3144; gamera_user_id=a9dbfd6a-187e-49d3-ad48-dad1750370dc; _cc_id=36e42c134d6ec7b283fc18251204a2d6; panoramaId_expiry=1772504139233; panoramaId=88b9804db4121db4fb4543fb76c14945a7024066139ab5527b0db77b54948819; panoramaIdType=panoIndiv; pbjs_fabrickId=%7B</span><span class="sc">%22f</span><span class="st">abrickId</span><span class="sc">%22%</span><span class="st">3A</span><span class="sc">%22E</span><span class="st">1%3AYU9ZfTO20MUf0yEkUnbRDQ4a3MZjIMPZwZ6BSD05kTnJjgFKHBg2W9rbVvzQdCh16DCQDGe6v16zlJoaykCL17YI0mhmpLAWgNmgmSPU2IuME2pGKtU1nvVry-nLvasSoxxBGLKjYCO5tGo5mhfCmA</span><span class="sc">%22%</span><span class="st">7D; mm-user-id=Fq9oo1YUf1zCPBlP; _au_1d=AU1D-0100-001771899339-KH7WYM15-AC7S; ccuid=15101e7f-c43f-4228-9cc7-6ec331b8858f; gcid_first=06064d0b-9af3-4891-bc23-f9571014456e; _sharedID=2b87279c-ad1a-4412-b9a4-63e8ebba3144; _sharedID_cst=qCxDLBcsxQ%3D%3D; _lr_sampling_rate=100; TAPAD=%7B</span><span class="sc">%22i</span><span class="st">d</span><span class="sc">%22%</span><span class="st">3A%220acc4154-b3a2-46d5-ab0a-cae7a0186e32</span><span class="sc">%22%</span><span class="st">7D; sr_n=1%7CTue%2C</span><span class="sc">%2024%</span><span class="st">20Feb</span><span class="sc">%202026%</span><span class="st">2002%3A32%3A43</span><span class="sc">%20G</span><span class="st">MT; pbjs_fabrickId_cst=rgwzbg%3D%3D; meta_more_button=1; _ga_FVWZ0RM4DH=GS2.1.s1771941509$o2$g1$t1771941760$j60$l0$h0; __cf_bm=5za07ySR3SJb35VyBdcK9LxcSjI0dCktuNuijW9irxc-1771956611-1.0.1.1-FvPhkQ2uihGecLJl0qJT31OPl9CmZ2K9zEdD_mfCLf3xD0Btl8St6uuZKvVxHfDil9dPdf_kyMZHvK9URAWa8GQT61QBlApbYwHqAbNj7q8; cf_clearance=7XSE62wjupoWZjBQt17oZqdtSV9Gg6u_f0R_k0C5BLM-1771956615-1.2.1.1-YTirG24R.MxxWTwVNw2qBlA_mRg9sj9QB2MteFfOHGSWtKqWEZvi8dlz982PNq8wGg6EKGtwjUW8x4k3cNYTtuCSM_KcJUyXrw269HCCqcPZ0VqlP5MKF2whImRDY9LFkG.M1pcoJK_a2PjtW0skZrhjSrydi54jPeuyoswM_E07waGxv6H7ky8cNmLPFzVxb_V_Fuu_s8w2EiFTS1vSVye1M1t4401SpJP0tkax3PA; srcssfull=yes; __hstc=223721476.058fec56e465da8d0f2ccf770d90ae4a.1771899332317.1771941528622.1771956616403.3; __hssc=223721476.1.1771956616403; _ga_EMBDG7RM0K=GS2.1.s1771956616$o3$g0$t1771956616$j60$l0$h0; _ga_80FRT7VJ60=GS2.1.s1771956616$o3$g0$t1771956616$j60$l0$h0; cookie_cst=znv0HA%3D%3D; connectId=%7B%22vmuid</span><span class="sc">%22%</span><span class="st">3A%22Ue5mw_SH65l2sk7cx-fBFX_MIPHWdPYILrDrDUAmtN43Y8CasykVRjbKfBX9jwelsbz86xbpjf_P4XORVxE-8g</span><span class="sc">%22%</span><span class="st">2C</span><span class="sc">%22c</span><span class="st">onnectid</span><span class="sc">%22%</span><span class="st">3A%22Ue5mw_SH65l2sk7cx-fBFX_MIPHWdPYILrDrDUAmtN43Y8CasykVRjbKfBX9jwelsbz86xbpjf_P4XORVxE-8g</span><span class="sc">%22%</span><span class="st">2C</span><span class="sc">%22c</span><span class="st">onnectId</span><span class="sc">%22%</span><span class="st">3A%22Ue5mw_SH65l2sk7cx-fBFX_MIPHWdPYILrDrDUAmtN43Y8CasykVRjbKfBX9jwelsbz86xbpjf_P4XORVxE-8g</span><span class="sc">%22%</span><span class="st">2C%22ttl</span><span class="sc">%22%</span><span class="st">3A86400000%2C%22puid</span><span class="sc">%22%</span><span class="st">3A</span><span class="sc">%2260f</span><span class="st">955e8-ff7f-4d54-8cf8-eb26d1889a4c</span><span class="sc">%22%</span><span class="st">2C%22lastSynced</span><span class="sc">%22%</span><span class="st">3A1771899339183%2C%22lastUsed</span><span class="sc">%22%</span><span class="st">3A1771956617151%7D; _lr_retry_request=true; mm-session-id=YFlMPgU7uF7ympio; gc_session_id=fcsmxcoauuffrwuxx6lyzi; __gads=ID=86d4ae15849645f3:T=1771899340:RT=1771956618:S=ALNI_MYiACxl7ZTBpjhGPERZBwJlSifgNw; __gpi=UID=00001397b4eef454:T=1771899340:RT=1771956618:S=ALNI_MY7iA0s7kUQtzxT8IpG2kgOY2ZUeA; __eoi=ID=6fdc20877483242b:T=1771899340:RT=1771956618:S=AA-AfjaDMImnT4mCJlPKL6QCz3iX; cto_bundle=p_FicV9DUThDcHppMUFsdmFadHBySURtJTJCdGk4VHhTYjZUVXNJNEZ4N3JPciUyQkhQeiUyQjE5Q1VhTk9UQWRLc0toY3J0d3NMN29YTG96b1BDZDgzZFhrSzdNTk1NbmNjVzFPQVJyY3VCS243JTJGJTJGTng3Y0Q3VUUxOU1iaXYzRnlBYkZrTGpoMnVtWUNHdXA4MXEydkRVVkR6JTJGeUZOamdxaiUyQkJ6UmNKdzZhalhUS01sdnkzUW1OeFdmR0MzTTVRZmtURG5NOFZwNU1KUVhhVW9KeXpCWmtIcXdkZnZEb0ElM0QlM0Q; cto_bidid=eGtRcl9ETFdPQ0VMRyUyRktndUUzTnAwU3poWXRzWlMyYmRXRUxISE10R09ma3dBalgzUEYlMkZjTXZKMjROWlZ1MmU5SW9UUHZmbHlNZ0ZPaEJ2d04yczBGS1lidWpwRkNYTURpRDZvSnVzVEVyQkZqOGRJbjF6ZUdseldxRURGUkN6aERtcjMyM2dMcUlNTUd4cXRFb3E5VTE1UVlXdzRrUXdHQ2xhNHBjYWUlMkJGUDIzZ00lM0Q'</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Referer"</span>: <span class="st">"https://www.pro-football-reference.com/teams/crd/2015/gamelog/?__cf_chl_tk=hxnpyIIRWKZhCg.G6cQ0o.yxBuSOpiVB91MOLLh3TQE-1771956611-1.0.1.1-w0hka1CMQOOUOQNEJTSqdh9WJtP2F7EJAu.Wm9KjeT8"</span>, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"User-Agent"</span>: <span class="st">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cookie"</span>: cookie    </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>payload <span class="op">=</span> <span class="st">"3b9e902f3b1b2003fb3825cb274ba67a5a9dbbbc9f7bc01a576a82752d02d54f=UPbs0irsry5UGMXA476Cbpk0JHINz2CTL7tZONvK3PI-1771956611-1.2.1.1-7GSBcqcxSyJuv2Xj7xQczTwRQlDs.Lth9fOdVYbwuypqP.Kr3jz4OmlQ29FPkiIuMmOkEL3DKMoWOx.9B2pUYkxt4YDF7TbYg7B4xxnZiWTGkHkKsnN3oIrFSM.uOq.jbJaS3Yrs5QP1_qIxnvpO_gZyRZFCsEpB_s5LZjJrBCGzg_fzWQ_5K3DZTGLtbPslwB1pWvlmi1eZojZRypr42GqFKHjeZWweaKhlK7IP3OTtinga1uDqME7.LkqPpXiUPnOZr6uAZoUE9Xp6hklYuCYd2Zeukf47KS.rHLwGIB6VS7C7L5Xh5l91wn76y8b1w_LdLw9p1QlmQXXWuxUA8mVNM_8RTvkBK.nPP_yukNgFMD5eoX4bFnkVh7M462oE2EZ.626H_m9NJ7RoKwpEeo_AXgzoN_otxySDFnNc5W1S5oQ8LeeAXa.rkI1rk9s1hbufUqHgWf4LJwNmQLkALBQm67rU6ByejPg7tD0GHUsZup2Q0hynHN1hWRUEHHFYYxi5urobTNta3UoHhhR4T86c9KG6in8As7APK95bFRTlHAkdqefZjrjAkKTbi3wy_MCJ.RcICzFN2CsIpKb0uz0bhkVBxUcVJlqrrhKfkmIRLzrcPW4L5au2mhAOO5l55ulh6yGZxNDRXNSbbD7ycnhWrql4y69.V4mONt7SnY2WmWWFA88HTCQ6MG_2OyNQ2QCM74IrWdvuPxOGkvPS6AlTx_4GWfwZlE3Ym58Z7Y0GhnSF7a9cOERoEs3CZIaOL.Z5GKvksmdD1At40c6s.gxJFsJ4e6030vaTw9sefmyXHB.EnyyzYSRNcgkk4ynBv6zahtfvgJxgoLKewjQKSEspJZIcTK6JT0A.zbf5ruFAptYSEInhmSmJAaYz0BQhem8oySfRVaeOj5pPIA4W5YOHmIAlv9fJPtmXH3KcSEnJoq0Y_tJvbJNM4X8LdcHhqPVZzryki2_USc7sbzne4Dbnh4OIliBjMWpbMSDOzOpCcsccQyCzgB1fQZ2geDU9_8Y2TDrSOWDn02IwpbJtsBJcgDL.WNLKpv8vjtZnA1DXoKRCUBfvFJhqnmmOlggonb3DcyMbwwvTcNCj1lsc7tbuDho4LbEx1VJ5WpdYihVFxKO56TEvmbfMsttV72.X&amp;dde87d71df0a1dde00d441d49d98d4b5849933fe7c277fcaba918ec19f794b6c=qxswBB9P2qvtCqQaB91B5rjHCe_rZlysDGO2a_4wTyQ-1771956611-1.2.1.1-uWODbrVSnTrkOwYrSu2XjsYeqpq7YnKj28X9RpyO_4bwzqu.WSyADBJcl5bpLi1EsjeJ8XJhWG6tJimzU.Fz1iL5h9bTkgOAt2da7Wq2KaD6RjKBc6deYIOkLF0hDGmUptvlKuL8eI6BJFHCC0FqgMMZmvQL9TzDNajIGeXN33moidf.1aAIO7jX9v1otisdQkHchvCkzdx2obpDGR2u_8h3_m3d95MtR2E_sn57.I8AXKuyp17WjfXLifirX5ibJEr3u8Ec5vdhJdx_iRHM8F0ejUXr_zPZZdcg_hDYUQ02t6Eq.k3Slz9hp8YHI29GZTKgxN_pfxbun.C6.W9FFSuc0BOCIT1z1N_r2MzF.zBSORlEuAigN._4VPcN1L6rrNx5AL7YEDowP2.AdE1J89_GH.l5ndvloa7pb4H2nfvvZF__kS_VLQsVn9E0vPUr.5hrPFzsSSUbSU6bLFolxcHkCSN1jPDruzy5EDyAJGvYZst.iiZMgZAlvjXEREpPj40J7xWJDEPBr3jpDg4l7a.ua51ksIkX3KpqNJbrtVcWLugeUnYNqOZDeh9gcsYRtRY_o2.1MU9LjF8t.hLbZKHW4x.XResZaQIwquelp678Ot2VdZLufgV3Vn7tsH5ZV7TeROOi6YFXTOLmRsTPF9YVlgEkdWhsLTYWQ0mrlKGXEcj4rHGF9hpdZZYitvDXHzO5IaTQ8ANiFCxnA_sfwumW4vUUMJaOPS5x3qkZjzceRfzB6pJsk5u0AMshP3e506fwiXcZx_wEemyr3cYPGbaLtgPe0IxHebBgnU3CyWwTaKJ3Jc5ki6LA4yIinEWhAbMjWFq1ldr1sD383nkh9QbHUQGk2eXuAgla_3obDipKWp7rY7E6qlhqwUffr9jpFhGPakR2hErBEbyR42nTIcErpNp26DZ0zx8LyHynLqUjsjCkf8_Kygaw4AgFQMsMnj1qCo9S2mpV_mQDcxWnGiuNuTLYkFlWhYnUruLdXymkICVErsuawmlxV0czBV5Uu61RHQ55urav5ZhOPgK.8PWvW50ztineTi5TbC6qUjyqVtV.fKnht_lfP5ZtYRJeI77uucAfq55lZtvvnJmUr2fsnO2c.y7td40gdduQwZ21bWJUVPQP.5r01WpsSREqrb.b.LgOEaUFgHk6pvoStjqdJKfcZVKyBxvtNuN_2cVC_9f57Qb.tOaumgzvbYr6Vyp2BAoQGSq5kHfnZ2d5DUCgwDJ4EC7KiX.7dA9dJNjbgirnQQEt1t1uN.eI1E0ROH6kmTzvfQVAzP.H_huqRJa4BWr0IsYISlKUIRNF4n8KPNEIf8jkTeGf0D.o7VPI.JLBy1zPR20Q3MXBC5zuDtzE8W0h5XNNN4lx78T2Ag24cXYQ6UkPzpPeb6_RN9qDIt3gKm2YPzf4hg5AxLqV3HQK_WWE0dDIz6x4CAyi1ukUN5gqXAg7A9XgWGD87nvi152u2FixGXIvXYW27WH4x5GXWzPU6vtkVNvKMHUcC8sYXX8wrOuACfa5BO6R2ZxKpjo81MVfkUJXxxEpiFZ6lVuS5cRYNTl0XwUxiIE5Zg_vNHoIcNvoKeJ7BuG49Rh8nudZQMJtJqtuZlN0vuT7.AQjkgeQkYxCyMc5bxV2o1YWngrUOvrCq7PPke5pCOvUXeM9YkPvAbrcVTrVjMZzsSybSFKd9985_xg7EFLmcMtP5TMraaEVcNxLbJIe92Kqq.tIWWku9EReF7y4NERxX5dAjqhHe5GrRT4Dkz8alNW.6zqDWyAJgzEl_BpGk8JMTUZ523ov9SCWFQS1a7Y0LwYEI6vJI5x01.hF8ALLhRYwcYKqVsZpYb1gh39BSzSd.UFEKnzeyeUvCAo5W8c_RwGJPRh8uhAHsIxtT95CAS4GFynSiXITbkO1HfUe2WnZXmvQzCj6vmUpu9BkNY3o3RUe5EI17NnTASMXAwbpOmA6ICROpAlPoIsgSdCW8mOVRvHc7G.SPHh7nksjzvPyF0vPJGZOOJtv1namKJ_XkHEJnHadvhOuTIKGyhgjJzfS_P2BaauvwFB58mXDluJtDk8YQUtI80I8Qx_lHHhBv.q0NIjWNxDXdOJHUmmOin7EK7QH.YCJ8bxVb0tt.YNnB1SBSz0DzVulPrs8w4hn.qzTBw__89pJ_taV1ve0lciFub2ospKPsiK.UIryKGJVNnpfWZfG7i4afgCN0..GLzIcmn3pITOxXaX8V6GkFTYxO6ZhZiRwXnoLLC80na3i8HZH8IyAXP3FbLp35umSYVab1Tmw8Ey0gWVtj5lFaJamw0v4F1d.rWVnYTG2oSoII58n1IaJ4z1Pf6sVvFLJ1z6JF7pfhZ_uH7RbyJELFGoVsjmxvn1jExvhflBEVmsaJ0DC08wfSsobH5kqRsFh34OPn.UHpBmUueApIEppjRbFfIItHQBtG1HoJnsGdW.bTmBlCjTZEMNRuLrYlkn1bDkZQueHcS2qkrtFOh4UmCyXoneTG.2Pm8oQ1_DrdIc8VHwL8DzU7CYWouajS946_GzFi83lhNoTeDRj9KOWaa7yXoPyKab8U6bXHybmFLmMw3TTk1Lbr0Uq0kYqLlsBcP2_VSd15.Q.k68l0YzwwL58KKSN.TsBp9.fTwultSvmALxxC50Muwt7hOJVb3fpCD1FYk60sLqRGn0BJzNCmDOfK9XSaC_QXm02l_PKk5uPQuWeANl6MH1ssl0UuempHZcwwAVRBW6zkqCHWy.f9SWwAfeOm3e7.SCV8OzUdoIWuvdAMI7VmP1aGeajgrqN_werpTV12gDm8A_kEcBDRh2BPpXP_msGkvK5tt6HvONXkpiTTpy7KsSzABA2HhRaYH_k.YxvxnXn9M0RBfEk60dLpzzexWw.ClgugSthivhlHYcTP7n61Ee4VI7wiWPjkh4Mtj._dLfw0c264GLNxAY2Um.lMBymmMp2RZptKpbQ7MXLRrNhNce8cixGNm7fOADO4LCoREmbH6GcuZmksd_6UOq6A9_Dx8bHt9NSfIZxgcj.XEAd.uGTPeQANyi51pu7xJp_7mrgex1pbWwdJTxuGNNoI_Jga48QfLdPohRwnNcqICgB7URNj1mwBBKjw__pcK.3OXy.shNZyB0BeU9fKSetSuZVyNEupfx314vtZB.9k7VI5gR9XmDWpj1YrE7i_TrMqROApeIFBicubNaniBUfMD1nIduCc6oBl7TfK.GVlHGsaKwKBiNmAZWbtEkEobiShiwmsK5Cma3GKE9SJg0R8ZoRFw_yTuXMocpd_T23pP5AvuNj1ckb_pJgln7CAj2b8F24qCSgtj1cpXMGJz9..JsM83K2EA2xiwBA40xwj6A9Oy9KeaVDZ24NFufUydKWXV3FppwhTpWHt9FTBE9hOZkPUg9thm6dRoKJ4v.0cejDA_Iq_N6bhqd7klm3mL8wnaoOYYhQ9f_8Nfb1c6GjYFR.iVHFFaNFT_645o6su6b2OyY8JYu9opuoppSNznyP.HhLbbHfUcvIRbKipn.ntG9Mh83SzAMRuSos99WkWXn1YN531b.ZS50K6R6l5Ktvn3qK6TP.T4CnS25PKw9dbe8Ntg_mxnBDCVR.8mFNVBVXjrsTsvV8nsXpyCMwc0eDzIWwSfiwG8It5kqXeyEoGnPKd1r9qfmwWM2XgVeb2IsBurpHSbh2wA7QXS8T9znXksnD2e825yxPht6NGxCth.Kjk7rt0_8_fb1ntSf0apj515otSQHpY6wT.N3DzS_H9MzzjcNWf0fOQybh98_b2aN1ygDvQBa1ONqXF90LI.KJPxilJ8FCeWFXQovOH2s7EqHvBpWAaf.JW2HsHZlaYYpLYnPgHVKIqGNYAOBKsEwixKz8cZLBGdKnuuTUjmTlSbDQfjseGw9CuF2BhpEd_gff3QiHcWbDovtWYwGSS9Dg_Vu9Bv6JbA5ZCj6HvqDZXBi08.S.mW259RlV8d3WKdFI_dJoSSB1BPuzSRU76CqpHp8KLWchJ6QfATwJ2_qR6GxCnLwuTB_R.BWcWO74Mf8k09Xz4.qMsz5N0AZpbJU.AZiN9zG0d56sO3zX2S8llRrEeeLfWkdBvP.h6iqOQA_udwzkse35bjWdSQdn1QDBqfbi_G8QSOJFYhZnuE_OWOJqwzQvZ7mlNsH1Y_fNa_7jJHk88YSVku7shr0JWW5ziatN6HayoKF_PREFnY_tZscAEvFI68Vrrc9Vc8BVi8BLxsD_RjDroFeHd7d8MuN1IpERZAXUeNDRHPmRdmjEZUdYUErawNhrvJqQyofHGwyus9ZoR9RKoJPAZl.GsfZK3lruKaEOGtUrdGzm7F2_ilO60rtCzTNt4t3vjYYNjan_ostiHRUtT_vEthvvjZ2dfP_fKPH017FOkDyJbFWfVVMOJTX881dq99EAHR2X0T6rc_PIoMOmKcyUAW.dSqa19Ec7z.4PBPiqgiUnV6XwmMBAFIteh74Kp0.5AOoTf8cObdHoSQjAkGmRu82aHkHMfwhUqYgkh1thnuMLL_2jS7oYQCjEGlMFi6.lN.VIrEenogGL2Sv.BPkswpifyj4v3U70NoLH.CzHB1.TgvWAyZeSVfq2hTap4PinmzHoGcmxPY__UCIWd_XITZdFccjSVOUZXJCn0OnVFwIQvAxtZVH6Es0V6l2R0Z.F0zC7HUNXo_SruI_4e5VIpQunz8YjdTIzBKWJaOqA9HO.HR9PlLgbmDKhjtqpDDZ7H1456MmNqvorijdlbx4qHUrdWNfIOVsA3i8j1vsXqZQKNx22wbxPKAb.JWfs8dTtmYqeTVIUSU6KduYx.r8onYex5UaP.d5wuOjLKhULji748oD_tIOzCCYbZh0HvYXYOPWngNIuWYVVd0HUiz5Al41mdgrkLMqwzLj1qs101SFd3Dr_B8A1dl6G_w.NuTfmoQVRzt.6lHpEiWcXEHPUphCNvDxzNzeB2oT8fYi34v8YFuwySRQ1dKpljG7eqqEfeBoJHgih8iOGszV7xm5dRTX7jXxwvVo419qhesfvrt.R5NXdGu2j2jN3InukYbvivKoz0fVVwgoYupwITdslFS35.J4vVn8zQ7Zap2xDyJpNBXeMfUBsrfKRUYQ2sBqLslbhH4wMVOkANeb56GrjW8qw2XzhO0Ar0e026uii2q8S3cHFniWSREnqB5tui8.Y6w7WbRJLoDImsrdq00z1Ag1qP11CdETPwfqet1YHZBSCuIBgKkUdfBnACMRwuPHn6ybJ5XzPaqAkbbT72wGzFS81f86amo1IgL8FBJKX5so5IDO5eKx3wIQTycXlSXIpnthrJzaOwfKytCXFj.IA3d2HYEXvk3XuO8_OAChJPvs2yEyje9kyXMMlJtGJml1WI7NbVFhcUj5cKKlnI3vyFCOuBa98JnOnwO.NERbLIN0OzGu0xH.FkHdE9SYwpAPviMwopdFVj1REvAx3gvqPgjTxmMI1KGUwTrKN5Eil.DGMfFBszjLfGW_nD4pCnSW5ySZvPXdLsJakXA78BOj.NlqFPV1qj_DJRYfLDLJAUj7MZAnW6DVBtY5NomIOj1aNLwGvgC9KTViRvbVtPu5Kana02UPnAvS0Ufr_pr5rusoBYcV69twec5y4mHn2RPa6fQmNzuQn8miHMHrJ0osmZDk6c2KG3v7DxT_ROyX.YFo64N8QB0dAluBwxV6rRgFEOoeU2bO5mq..x8KyLlrUJ1r8qTQP2R7xUsQt3HyZoPZCBFdyW4v7nhF1GyJO5hT.wrrND8cmju2G1S9XyYZhds2zQ7hPW5thHruB_obDkWeTCNiu8Ri7eOpkjVYmVRRd4yJq5U_nqmiAOThccMqXIMfH0SYq975B.Zw97pbdRQsj_FK29xKZKhj.JUX.470DqN5x74MGB3RuN6oFZq6_eJhPi7FXWIwHhwfolwy3Kz6EmwUbj_.yVUVa2NrBOqYbGPmYVZbAemQrwCi0PIp3s.cswuZRq2RC8H4QQH6NFaWI2ruJnHoRY68AXgfv404UgaesqyiR6wW_szO_OomarH5shcmzI5WRFLqrvXPiETGixaKNq4Pp51IycRaDXlDwYbhbkdCZCi4FEGUJILEG8N8bvbWeoFdIeBFfizwNq2ESYQGQNHxSxInOCWfl6JSwBV6WFQWwR.VIPIxY3IdhmlpaZQGrFN07qFb9mXuhP6KcUe5l4BBkWOO9CfM1_WwgINTYexZNTcSCigzJ1h40caou_cw9JjRe3mM42R4hnE3Zz.K0j3eb077d53wq.yHhkDUKiBZPKP5ZpHZZ7WW935ATRVXXb1SEYg._Di5QOmxvmNdjW9yF.yT5opfAGvlnXEuL6MYjpK6_eMSaW2hRg3zVU0dyqbYjo29E5C2DWC2N4rJ_bvLaxPXMfzA8GA20mzNlAGsMHG7aYT8F0hl6aJTt..OBU2zXiCbOMfxiShJ7eygE2IDMM.r8.fWWyC0bo5j_Cp43i1sQYnhf5bgPAfiaONmmQp7ddBEH7UR7oHeiuEZs7ML18X5nPdgcGG1ycOxXeT.h93gMAg3Rvsabf7it62SLTielPVQf8J8.yyViNxXQWK1VFJLbcKXAojXgB6BZ3RT7GGKEnPGxYtlXxOkgcua0xwKjqv92.7IcQwOME2CJqM1rquvoer_BEVjzViewR3LbFLxfN8Glenm.sTOOAxPmJ_zVYfDKbnQsbkHqW76Fg85vlMUh5Yu0mdLpiA_py6A_gCUxVqta2d1yan64opF9FHi97JWxSBCINnrp8KUYnqbOBiz0NuHoHQNODwVdRb4HwUdhos2dZFTPSiajcqkT7OZCf7hrgkgb_9ZC_DYTS2oDQ2B0h8GXoAZQDDkPWu89IyZMh1UDrabaoukdkzjJqk5asmQuO6C36hTju9H2cIPmjTYyqZeifY.TUw0tMcaS7iIaRjxCbtJK.t8We5qxDP6.iq0RJ2VdKtSmouQTBQGu84Iz872K9A0m_X..dJ9nqOdmSnIcTswbM4xIHs8elFQs.V8Ea2mL83SpcDXcVNy0Jj97y.CVRTID.13NZVBeogQJ8WJO3E9d6UZHf2IU0WuTne96_1CQ02IgxZpdkNDFR8z1I1FnPyyqvK3tW7ej87Naj5kvOAP7ggZQz5wMdVrBcBGyJi4cp9r7VsirS45IGM56RCiyhw.nMvwhiKB6aqgkHN8Um9CQNbC77olorvfVLb.6vQeTjQ33_kPhlzNWE.w.wFixntJjxzks1w8YCFphLeOCumHDi9dJK8stwM7Q9VDctcld766pura6NtLM8j3G720w_WiVBvnpgMQPRMRKfmM225N_zrxK2ImikVeoAtosfAzLQPKQDXcyKoycZM1_iwEVrx75bEL37WrRrkxzBhveldr46S83T_zwEJ0tygx_1QoWuheN6JZh47eTWRRu6JIGdIVDQLc1zm6kMBdF_9CdS0hj5AkzREICY5wwAAOD3uFFNnV91od0E6OHEoGCngBaZYAjR652FoznPQoKPllMUdEkq0qQMXtSbJZt_tCo8LvA2rM5aikEa1sB9vk4FPB42wSQaUGQ1H2HB9.sxC90x1iqH8qJCZQvYT44F96oD9DEygtv_H3JKzC.z91fbmADGcuXIiK8uxB7_jR9MUhjuraq7gD0hiOr5XAJHAlIYgUS8_iSnSdxngmd_wUVe2T0tyq42Ak2qA5vfh5mulDDxnSIOhTqq2akPTbgemhtc0HfyHE0yJ5TXOAvu49I73NjbTti8Jv4sVU2Rr3unmxidpo6Evb9tn8fR592vRVsys6db29T17XthNLT9qbrJeSz8.4XDemYEzpGsCmnECYmwWwklZiQz9ZUN9AFWOIVq79qW_E2BOT2DF5Pzi65LuLL0wCjJjmwXPnAd.2BdVGF2CUXooaV_5ZPt42jLOep5nOVr7jfJRmDXRHQutHVc7bRTsgJY2VDz6lvWZF9Tk4gWwC5YVCf9fQPsNVWXWc_2S6MyANONl_YShMtl6MKuJPJWElv32LTxDMON3G4TvOG7xylow&amp;b1252cdf9b899e108a4c9a835e346d9ac90c61d8a578823684d2738bbc5fdc56=VOFe2wl9f2qS4UsUW5Fof95auF8i9DawsHWIah70Ku8-1771956615-1.0.1.1-heccF2KHcTDOmVe_7pQo9f_7IbMe7pI3o3AQMQKO_WRHZzy1aaHNfxxJiZpwfu5H_4Bz.wc0OKTpf2l9gW3KU8695tvir_UQmsv32NfnHYYGQvlMPneZSuwxMKn_3o_XLCIJ5lQEP2J1W7vVtcy9.dTXHRxNmy_6RX3sR1fmyIIYNKsaxoK57kc_juR6yB.u"</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Ran in terminal</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> season <span class="kw">in</span> seasons:</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> team <span class="kw">in</span> teams:</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>: </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            time.sleep(random.randint(<span class="dv">4</span>,<span class="dv">5</span>))</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            url <span class="op">=</span> <span class="st">'https://www.pro-football-reference.com/teams/'</span> <span class="op">+</span> team <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> <span class="bu">str</span>(season) <span class="op">+</span> <span class="st">'/gamelog/'</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(url)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>            table_id <span class="op">=</span> <span class="st">'table_pfr_team-year_game-logs_team-year-regular-season-game-log'</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> requests.post(url<span class="op">=</span>url, json<span class="op">=</span>payload, headers<span class="op">=</span>headers)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>            tm_df <span class="op">=</span> pd.read_html(StringIO(r.text), header<span class="op">=</span><span class="dv">1</span>, attrs<span class="op">=</span>{<span class="st">'id'</span>:table_id})[<span class="dv">0</span>]</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>            nfl_df <span class="op">=</span> pd.concat([nfl_df, tm_df], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span>:</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>After running in the terminal, I typed this code in the terminal to make the nfl_df a csv, to come back into VS Code.</p>
+<div id="a69d9c88" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nfl_df.to_csv(<span class="st">'nfl_df.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This brings my csv back into VS Code.</p>
+<div id="c6a4f1ba" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nfl_df <span class="op">=</span> pd.read_csv(<span class="st">"~/Downloads/nfl_df.csv"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>nfl_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Rk</th>
+<th data-quarto-table-cell-role="th">Gtm</th>
+<th data-quarto-table-cell-role="th">Week</th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">Day</th>
+<th data-quarto-table-cell-role="th">Unnamed: 5</th>
+<th data-quarto-table-cell-role="th">Opp</th>
+<th data-quarto-table-cell-role="th">Rslt</th>
+<th data-quarto-table-cell-role="th">Pts</th>
+<th data-quarto-table-cell-role="th">PtsO</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">3DConv</th>
+<th data-quarto-table-cell-role="th">3DAtt</th>
+<th data-quarto-table-cell-role="th">4DConv</th>
+<th data-quarto-table-cell-role="th">4DAtt</th>
+<th data-quarto-table-cell-role="th">Pen.1</th>
+<th data-quarto-table-cell-role="th">Yds.4</th>
+<th data-quarto-table-cell-role="th">FL</th>
+<th data-quarto-table-cell-role="th">Int</th>
+<th data-quarto-table-cell-role="th">TO</th>
+<th data-quarto-table-cell-role="th">ToP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>9/7/25</td>
+<td>Sun</td>
+<td>@</td>
+<td>NOR</td>
+<td>W</td>
+<td>20</td>
+<td>13</td>
+<td>...</td>
+<td>6</td>
+<td>13</td>
+<td>0</td>
+<td>0</td>
+<td>9</td>
+<td>54</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>33:46:00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>9/14/25</td>
+<td>Sun</td>
+<td>NaN</td>
+<td>CAR</td>
+<td>W</td>
+<td>27</td>
+<td>22</td>
+<td>...</td>
+<td>3</td>
+<td>9</td>
+<td>1</td>
+<td>1</td>
+<td>12</td>
+<td>96</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>26:45:00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>9/21/25</td>
+<td>Sun</td>
+<td>@</td>
+<td>SFO</td>
+<td>L</td>
+<td>15</td>
+<td>16</td>
+<td>...</td>
+<td>5</td>
+<td>15</td>
+<td>2</td>
+<td>2</td>
+<td>5</td>
+<td>30</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>34:39:00</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>9/25/25</td>
+<td>Thu</td>
+<td>NaN</td>
+<td>SEA</td>
+<td>L</td>
+<td>20</td>
+<td>23</td>
+<td>...</td>
+<td>6</td>
+<td>15</td>
+<td>1</td>
+<td>1</td>
+<td>7</td>
+<td>46</td>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+<td>27:36:00</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>10/5/25</td>
+<td>Sun</td>
+<td>NaN</td>
+<td>TEN</td>
+<td>L</td>
+<td>21</td>
+<td>22</td>
+<td>...</td>
+<td>7</td>
+<td>16</td>
+<td>0</td>
+<td>0</td>
+<td>8</td>
+<td>47</td>
+<td>3</td>
+<td>0</td>
+<td>3</td>
+<td>32:40:00</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 48 columns</p>
+</div>
+</div>
+</div>
+<p>I will now change the column headers that I talked about above, as well as make some new columns to make life a bit easier while doing statistical analysis, as well as creating some columns on things I believe could be interesting to look at.</p>
+<div id="1c77de57" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nfl_df.columns.tolist())</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nfl_df <span class="op">=</span> nfl_df.rename(columns<span class="op">=</span>renamed_dict)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nfl_df.columns.tolist())</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>nfl_df[<span class="st">'Win_Binary'</span>] <span class="op">=</span> (nfl_df[<span class="st">'Win'</span>] <span class="op">==</span> <span class="st">'W'</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>nfl_df[<span class="st">'Is_Home'</span>] <span class="op">=</span> (nfl_df[<span class="st">'Home'</span>] <span class="op">!=</span> <span class="st">'@'</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>nfl_df[<span class="st">'Margin'</span>] <span class="op">=</span> nfl_df[<span class="st">'Tm_PTS'</span>] <span class="op">-</span> nfl_df[<span class="st">'Opp_PTS'</span>]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Won't be looking at ties</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>nfl_df <span class="op">=</span> nfl_df[nfl_df[<span class="st">'Win'</span>] <span class="op">!=</span> <span class="st">'T'</span>].copy()</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>nfl_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Rk', 'Gtm', 'Week', 'Date', 'Day', 'Unnamed: 5', 'Opp', 'Rslt', 'Pts', 'PtsO', 'OT', 'Cmp', 'Att', 'Cmp%', 'Yds', 'TD', 'Y/A', 'AY/A', 'Rate', 'Sk', 'Yds.1', 'Att.1', 'Yds.2', 'TD.1', 'Y/A.1', 'Ply', 'Tot', 'Y/P', 'FGA', 'FGM', 'XPA', 'XPM', 'Pnt', 'Yds.3', 'Pass', 'Rsh', 'Pen', '1stD', '3DConv', '3DAtt', '4DConv', '4DAtt', 'Pen.1', 'Yds.4', 'FL', 'Int', 'TO', 'ToP']
+['Rk', 'Gtm', 'Week', 'Date', 'Day', 'Home', 'Opp', 'Win', 'Tm_PTS', 'Opp_PTS', 'OT', 'pCmp', 'pAtt', 'pCmp%', 'passYds', 'pTD', 'pY/A', 'pAY/A', 'pRate', 'Sk', 'SaclYds', 'rAtt', 'rushYds', 'rTD', 'rY/A', 'Ply', 'Tot', 'Y/P', 'FGA', 'FGM', 'XPA', 'XPM', 'Pnt', 'PntYds', 'fdPass', 'fdRush', 'fdPen', '1stD', '3DConv', '3DAtt', '4DConv', '4DAtt', 'Pen', 'PenYds', 'FL', 'Int', 'TO', 'ToP']</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Rk</th>
+<th data-quarto-table-cell-role="th">Gtm</th>
+<th data-quarto-table-cell-role="th">Week</th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">Day</th>
+<th data-quarto-table-cell-role="th">Home</th>
+<th data-quarto-table-cell-role="th">Opp</th>
+<th data-quarto-table-cell-role="th">Win</th>
+<th data-quarto-table-cell-role="th">Tm_PTS</th>
+<th data-quarto-table-cell-role="th">Opp_PTS</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">4DAtt</th>
+<th data-quarto-table-cell-role="th">Pen</th>
+<th data-quarto-table-cell-role="th">PenYds</th>
+<th data-quarto-table-cell-role="th">FL</th>
+<th data-quarto-table-cell-role="th">Int</th>
+<th data-quarto-table-cell-role="th">TO</th>
+<th data-quarto-table-cell-role="th">ToP</th>
+<th data-quarto-table-cell-role="th">Win_Binary</th>
+<th data-quarto-table-cell-role="th">Is_Home</th>
+<th data-quarto-table-cell-role="th">Margin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>9/7/25</td>
+<td>Sun</td>
+<td>@</td>
+<td>NOR</td>
+<td>W</td>
+<td>20</td>
+<td>13</td>
+<td>...</td>
+<td>0</td>
+<td>9</td>
+<td>54</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>33:46:00</td>
+<td>1</td>
+<td>0</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>9/14/25</td>
+<td>Sun</td>
+<td>NaN</td>
+<td>CAR</td>
+<td>W</td>
+<td>27</td>
+<td>22</td>
+<td>...</td>
+<td>1</td>
+<td>12</td>
+<td>96</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>26:45:00</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>9/21/25</td>
+<td>Sun</td>
+<td>@</td>
+<td>SFO</td>
+<td>L</td>
+<td>15</td>
+<td>16</td>
+<td>...</td>
+<td>2</td>
+<td>5</td>
+<td>30</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>34:39:00</td>
+<td>0</td>
+<td>0</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>9/25/25</td>
+<td>Thu</td>
+<td>NaN</td>
+<td>SEA</td>
+<td>L</td>
+<td>20</td>
+<td>23</td>
+<td>...</td>
+<td>1</td>
+<td>7</td>
+<td>46</td>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+<td>27:36:00</td>
+<td>0</td>
+<td>1</td>
+<td>-3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>10/5/25</td>
+<td>Sun</td>
+<td>NaN</td>
+<td>TEN</td>
+<td>L</td>
+<td>21</td>
+<td>22</td>
+<td>...</td>
+<td>0</td>
+<td>8</td>
+<td>47</td>
+<td>3</td>
+<td>0</td>
+<td>3</td>
+<td>32:40:00</td>
+<td>0</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 51 columns</p>
+</div>
+</div>
+</div>
+<p>I first wanted to compare the correlation of some categories surrounding passing and throwing to winning the game. This was a good start to see which stats to dive into deeper.</p>
+<div id="b9cf3747" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cols_to_check <span class="op">=</span> [<span class="st">'pRate'</span>, <span class="st">'passYds'</span>, <span class="st">'pCmp%'</span>, <span class="st">'rAtt'</span>, <span class="st">'rushYds'</span>, <span class="st">'rY/A'</span>, <span class="st">'Sk'</span>]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> cols_to_check:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    nfl_df[col] <span class="op">=</span> pd.to_numeric(nfl_df[col], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> cols_to_check:</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    r, p <span class="op">=</span> stats.pointbiserialr(nfl_df[<span class="st">'Win_Binary'</span>], nfl_df[col])</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">: r=</span><span class="sc">{</span>r<span class="sc">:.3f}</span><span class="ss">, p=</span><span class="sc">{</span>p<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># store results</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> cols_to_check:</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    r, p <span class="op">=</span> stats.pointbiserialr(nfl_df[<span class="st">'Win_Binary'</span>], nfl_df[col])</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    results[col] <span class="op">=</span> r</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># cleaner labels for the chart</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> {</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'pRate'</span>:    <span class="st">'Passer Rating'</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'passYds'</span>:  <span class="st">'Pass Yards'</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'pCmp%'</span>:    <span class="st">'Completion %'</span>,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rAtt'</span>:     <span class="st">'Rush Attempts'</span>,</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rushYds'</span>:  <span class="st">'Rush Yards'</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rY/A'</span>:     <span class="st">'Rush Y/A'</span>,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Sk'</span>:       <span class="st">'Sacks Taken'</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co"># sort by correlation value</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>sorted_results <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">sorted</span>(results.items(), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>]))</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>bar_labels <span class="op">=</span> [labels[k] <span class="cf">for</span> k <span class="kw">in</span> sorted_results.keys()]</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>bar_values <span class="op">=</span> <span class="bu">list</span>(sorted_results.values())</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>bar_colors <span class="op">=</span> [<span class="st">'green'</span> <span class="cf">if</span> v <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'red'</span> <span class="cf">for</span> v <span class="kw">in</span> bar_values]</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>plt.barh(bar_labels, bar_values, color<span class="op">=</span>bar_colors, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Correlation with Winning (r)'</span>)</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Which Stats Correlate Most with Winning?'</span>)</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>pRate: r=0.442, p=0.0000
+passYds: r=0.135, p=0.0016
+pCmp%: r=0.255, p=0.0000
+rAtt: r=0.510, p=0.0000
+rushYds: r=0.352, p=0.0000
+rY/A: r=0.033, p=0.4364
+Sk: r=-0.243, p=0.0000</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unstructured_vF2_files/figure-html/cell-8-output-2.png" width="950" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It seems that the amount you rush has the highest correlation to winning, followed by the QB’s passer rating.</p>
+<p>After running correlations, we know which stats relate to winning but not how useful they actually are for predicting it, which is what AUC answers.</p>
+<p>We run StandardScaler first because yards go from 0-500 while completion % goes from 0-100, and without scaling the model treats those differences as equal which isn’t fair.</p>
+<div id="69a43cd3" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_auc_score</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">'pRate'</span>, <span class="st">'passYds'</span>, <span class="st">'pCmp%'</span>, <span class="st">'rAtt'</span>, <span class="st">'rushYds'</span>, <span class="st">'rY/A'</span>, <span class="st">'Sk'</span>]:</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> scaler.fit_transform(nfl_df[[col]])</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    lr <span class="op">=</span> LogisticRegression()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    lr.fit(X, nfl_df[<span class="st">'Win_Binary'</span>])</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    auc <span class="op">=</span> roc_auc_score(nfl_df[<span class="st">'Win_Binary'</span>], lr.predict_proba(X)[:,<span class="dv">1</span>])</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">: AUC=</span><span class="sc">{</span>auc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> cols_to_check:</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> scaler.fit_transform(nfl_df[[col]])</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    lr <span class="op">=</span> LogisticRegression()</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    lr.fit(X, nfl_df[<span class="st">'Win_Binary'</span>])</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    auc <span class="op">=</span> roc_auc_score(nfl_df[<span class="st">'Win_Binary'</span>], lr.predict_proba(X)[:,<span class="dv">1</span>])</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    results[col] <span class="op">=</span> auc</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>plt.barh(<span class="bu">list</span>(results.keys()), <span class="bu">list</span>(results.values()))</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>plt.axvline(<span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'AUC Score'</span>)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Which Stats Best Predict Winning?'</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>pRate: AUC=0.754
+passYds: AUC=0.583
+pCmp%: AUC=0.642
+rAtt: AUC=0.802
+rushYds: AUC=0.705
+rY/A: AUC=0.521
+Sk: AUC=0.635</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/np/7fjdm1cn2610_myq2cjs84gw0000gn/T/ipykernel_89881/2416066872.py:27: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  plt.legend()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unstructured_vF2_files/figure-html/cell-9-output-3.png" width="826" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I put a red line at 0.5, which is a coin flip worth of a chance. Anything near there is useless for our evaluation. As we saw before rushing attempts has the highest AUC value, followed by passing rating of the Quarterback.</p>
+<p>This initially made me think that rushing the ball was the more important part of the offense, until I thought about it a little bit more. Every time a team is up big in the fourth quarter, I see them run the ball on the majority of plays in order to burn the clock out. So finally I will look to see if what the relationship between scoring margin and rush attempts is to try to answer the question, “Do good teams run the ball more, or do good teams run the ball more because their leading?”</p>
+<div id="6eb215e7" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(nfl_df[<span class="st">'Margin'</span>], nfl_df[<span class="st">'rAtt'</span>], alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Score Margin'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Rush Attempts'</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Score Margin vs Rush Attempts'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/np/7fjdm1cn2610_myq2cjs84gw0000gn/T/ipykernel_89881/1352179348.py:8: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  plt.legend()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unstructured_vF2_files/figure-html/cell-10-output-2.png" width="808" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As we can see, there’s a strong positive relationship between scoring margin and rush attempts. This means the more that you are up, the more rushing attempts you have.</p>
+<p>Now lets look at the relationship with passing attempts and margin, to get a comparision.</p>
+<div id="6b3c1039" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(nfl_df[<span class="st">'Margin'</span>], nfl_df[<span class="st">'pAtt'</span>], alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Score Margin'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Pass Attempts'</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Score Margin vs Pass Attempts'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/np/7fjdm1cn2610_myq2cjs84gw0000gn/T/ipykernel_89881/3890930136.py:8: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  plt.legend()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unstructured_vF2_files/figure-html/cell-11-output-2.png" width="808" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There seems to be little to no relationship between passing attemtps and scoring margin. I would expect to see a negative relationship due to teams being down wanting to throw the ball down the field, taking more risks. This does not seem to be the case.</p>
+<p>The last thing I wanted to look at was to look at only close games, to get rid of the games when one team is running the ball up big.</p>
+<div id="bc320176" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_auc_score</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>close_games <span class="op">=</span> nfl_df[(nfl_df[<span class="st">'Margin'</span>] <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">10</span>) <span class="op">&amp;</span> (nfl_df[<span class="st">'Margin'</span>] <span class="op">&lt;=</span> <span class="dv">10</span>)]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>cols_to_check <span class="op">=</span> [<span class="st">'pRate'</span>, <span class="st">'passYds'</span>, <span class="st">'pCmp%'</span>, <span class="st">'rAtt'</span>, <span class="st">'rushYds'</span>, <span class="st">'rY/A'</span>, <span class="st">'Sk'</span>]</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> cols_to_check:</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> scaler.fit_transform(close_games[[col]])</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    lr <span class="op">=</span> LogisticRegression()</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    lr.fit(X, close_games[<span class="st">'Win_Binary'</span>])</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    auc <span class="op">=</span> roc_auc_score(close_games[<span class="st">'Win_Binary'</span>], lr.predict_proba(X)[:,<span class="dv">1</span>])</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    results[col] <span class="op">=</span> auc</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>plt.barh(<span class="bu">list</span>(results.keys()), <span class="bu">list</span>(results.values()))</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'AUC Score'</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Which Stats Best Predict Winning in Close Games?'</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/np/7fjdm1cn2610_myq2cjs84gw0000gn/T/ipykernel_89881/2343458209.py:23: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  plt.legend()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unstructured_vF2_files/figure-html/cell-12-output-2.png" width="826" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The top two attributes seem to be consistent, but a balance offense still seems to be the best strategy.</p>
+<p>There seems to be pretty conclusive evidence that both passing and rushing are needed as a balanced offense keeps their opponents on their toes. Looking at the passing game, the data clearly shows that efficiency matters more than volume. Passer rating was a stronger predictor of winning than raw passing yards, and completion percentage beat out passing yards as well. This tells us that teams that win aren’t just throwing the ball more, they’re throwing it more accurate. Sacks also stood out as a meaningful signal, with win rate dropping sharply as sacks allowed went up, suggesting that offensive line play has a real and measurable impact on outcomes.</p>
+<p>The rushing game told the most interesting story in the whole analysis. Rush attempts appeared to be the single strongest predictor of winning, but the scatter plot exposed why that number is misleading. Teams that are already winning simply run more to burn clock, meaning rushing volume is a consequence of the score rather than a cause of winning. To hammer that point home, rush yards per carry had almost no relationship with winning at all, sitting at an AUC of just 0.521. The takeaway is that running efficiently doesn’t win you games, and running a lot just means you were probably already ahead.</p>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
