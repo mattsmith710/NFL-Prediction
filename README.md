@@ -1,20 +1,8 @@
-
-::: quarto-title
 # Does Passing or Rushing Lead to More NFL Wins? {#does-passing-or-rushing-lead-to-more-nfl-wins .title}
-:::
 
-:::::: quarto-title-meta
-::::: {}
-::: quarto-title-meta-heading
 Author
-:::
 
-::: quarto-title-meta-contents
 Matt Smith
-:::
-:::::
-::::::
-::::::::
 
 For my final project for Unstructured Data Analytics, I wanted to
 enhance my knowledge on the NFL. I have always been an avid sports fan,
@@ -46,8 +34,8 @@ title names. I decided to make a dictionary of column headers I wanted
 to be a bit more clear, this will be put to use later after the
 scraping.
 
-::::: {#a4919bf3 .cell execution_count="1"}
-:::: code-copy-outer-scaffold
+##Data Prep
+
 ``` {.sourceCode .python .code-with-copy}
 import pandas as pd
 import numpy as np
@@ -70,18 +58,17 @@ renamed_dict = {
     'Rsh':'fdRush', 'Pen':'fdPen', 'Pen.1':'Pen', 'Yds.4':'PenYds'
 }
 ```
-::::
-:::::
 
 This indentifies I just want last year's data.
 
-::::: {#ffe67af8 .cell execution_count="2"}
-:::: code-copy-outer-scaffold
+
 ``` {.sourceCode .python .code-with-copy}
 seasons = range(2025, 2026)
 ```
 ::::
 :::::
+
+##Data Scraping
 
 This code runs the scraper. The first for loop will go over every season
 in the range of seasons I identify, which in this case is just the one.
@@ -93,8 +80,7 @@ the nfl dataframe, which is what we will be using for this project.
 This code block was run in my Apple Computer's Terminal, due to issues
 with VS Code
 
-::::: {#5921d666 .cell execution_count="3"}
-:::: code-copy-outer-scaffold
+
 ``` {.sourceCode .python .code-with-copy}
 nfl_df = pd.DataFrame()
 team = teams[0]
@@ -126,14 +112,11 @@ for season in seasons:
         except:
             continue
 ```
-::::
-:::::
 
+## Data Cleaning
 After running in the terminal, I typed this code in the terminal to make
 the nfl_df a csv, to come back into VS Code.
 
-::::: {#a69d9c88 .cell execution_count="4"}
-:::: code-copy-outer-scaffold
 ``` {.sourceCode .python .code-with-copy}
 nfl_df.to_csv('nfl_df.csv', index=False)
 ```
@@ -142,8 +125,7 @@ nfl_df.to_csv('nfl_df.csv', index=False)
 
 This brings my csv back into VS Code.
 
-::::::: {#c6a4f1ba .cell execution_count="5"}
-:::: code-copy-outer-scaffold
+
 ``` {.sourceCode .python .code-with-copy}
 nfl_df = pd.read_csv("~/Downloads/nfl_df.csv")
 nfl_df.head()
@@ -161,17 +143,13 @@ nfl_df.head()
   4   5    5     5      10/5/25   Sun   NaN          TEN   L      21    22     \...   7        16      0        0       8       47      3    0     3    32:40:00
 
 5 rows × 48 columns
-:::
-::::
-:::::::
+
 
 I will now change the column headers that I talked about above, as well
 as make some new columns to make life a bit easier while doing
 statistical analysis, as well as creating some columns on things I
 believe could be interesting to look at.
 
-:::::::: {#1c77de57 .cell execution_count="6"}
-:::: code-copy-outer-scaffold
 ``` {.sourceCode .python .code-with-copy}
 print(nfl_df.columns.tolist())
 nfl_df = nfl_df.rename(columns=renamed_dict)
@@ -207,16 +185,12 @@ nfl_df.head()
   4   5    5     5      10/5/25   Sun   NaN    TEN   L     21       22        \...   0       8     47       3    0     3    32:40:00   0            1         -1
 
 5 rows × 51 columns
-:::
-::::
-::::::::
 
+##Statistical Analysis
 I first wanted to compare the correlation of some categories surrounding
 passing and throwing to winning the game. This was a good start to see
 which stats to dive into deeper.
 
-:::::::: {#b9cf3747 .cell execution_count="7"}
-:::: code-copy-outer-scaffold
 ``` {.sourceCode .python .code-with-copy}
 from scipy import stats
 import matplotlib.pyplot as plt
@@ -273,15 +247,12 @@ plt.show()
     Sk: r=-0.243, p=0.0000
 :::
 
-:::: {.cell-output .cell-output-display}
+
 ::: {}
 <figure class="figure">
 <p><img src="Unstructured_vF2_files/figure-html/cell-8-output-2.png"
 class="figure-img" width="950" height="566" /></p>
 </figure>
-:::
-::::
-::::::::
 
 It seems that the amount you rush has the highest correlation to
 winning, followed by the QB's passer rating.
@@ -294,8 +265,7 @@ We run StandardScaler first because yards go from 0-500 while completion
 % goes from 0-100, and without scaling the model treats those
 differences as equal which isn't fair.
 
-::::::::: {#69a43cd3 .cell execution_count="8"}
-:::: code-copy-outer-scaffold
+
 ``` {.sourceCode .python .code-with-copy}
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
@@ -349,9 +319,7 @@ plt.show()
 <p><img src="Unstructured_vF2_files/figure-html/cell-9-output-3.png"
 class="figure-img" width="826" height="523" /></p>
 </figure>
-:::
-::::
-:::::::::
+
 
 I put a red line at 0.5, which is a coin flip worth of a chance.
 Anything near there is useless for our evaluation. As we saw before
@@ -367,8 +335,6 @@ margin and rush attempts is to try to answer the question, "Do good
 teams run the ball more, or do good teams run the ball more because
 their leading?"
 
-:::::::: {#6eb215e7 .cell execution_count="9"}
-:::: code-copy-outer-scaffold
 ``` {.sourceCode .python .code-with-copy}
 import matplotlib.pyplot as plt
 
@@ -404,8 +370,7 @@ rushing attempts you have.
 Now lets look at the relationship with passing attempts and margin, to
 get a comparision.
 
-:::::::: {#6b3c1039 .cell execution_count="10"}
-:::: code-copy-outer-scaffold
+
 ``` {.sourceCode .python .code-with-copy}
 import matplotlib.pyplot as plt
 
@@ -442,8 +407,7 @@ risks. This does not seem to be the case.
 The last thing I wanted to look at was to look at only close games, to
 get rid of the games when one team is running the ball up big.
 
-:::::::: {#bc320176 .cell execution_count="11"}
-:::: code-copy-outer-scaffold
+
 ``` {.sourceCode .python .code-with-copy}
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
@@ -489,6 +453,8 @@ class="figure-img" width="826" height="523" /></p>
 
 The top two attributes seem to be consistent, but a balance offense
 still seems to be the best strategy.
+
+##Summary
 
 There seems to be pretty conclusive evidence that both passing and
 rushing are needed as a balanced offense keeps their opponents on their
