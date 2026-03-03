@@ -31,6 +31,8 @@ title names. I decided to make a dictionary of column headers I wanted
 to be a bit more clear, this will be put to use later after the
 scraping.
 
+## Data Prep
+
 ``` python
 import pandas as pd
 import numpy as np
@@ -69,6 +71,8 @@ the nfl dataframe, which is what we will be using for this project.
 
 This code block was run in my Apple Computer’s Terminal, due to issues
 with VS Code
+
+## Data Scraping
 
 ``` python
 nfl_df = pd.DataFrame()
@@ -116,18 +120,6 @@ nfl_df = pd.read_csv("~/Downloads/nfl_df.csv")
 nfl_df.head()
 ```
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 
 |  | Rk | Gtm | Week | Date | Day | Unnamed: 5 | Opp | Rslt | Pts | PtsO | ... | 3DConv | 3DAtt | 4DConv | 4DAtt | Pen.1 | Yds.4 | FL | Int | TO | ToP |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
@@ -144,6 +136,8 @@ I will now change the column headers that I talked about above, as well
 as make some new columns to make life a bit easier while doing
 statistical analysis, as well as creating some columns on things I
 believe could be interesting to look at.
+
+## Data Cleaning
 
 ``` python
 print(nfl_df.columns.tolist())
@@ -166,18 +160,7 @@ nfl_df.head()
     ['Rk', 'Gtm', 'Week', 'Date', 'Day', 'Unnamed: 5', 'Opp', 'Rslt', 'Pts', 'PtsO', 'OT', 'Cmp', 'Att', 'Cmp%', 'Yds', 'TD', 'Y/A', 'AY/A', 'Rate', 'Sk', 'Yds.1', 'Att.1', 'Yds.2', 'TD.1', 'Y/A.1', 'Ply', 'Tot', 'Y/P', 'FGA', 'FGM', 'XPA', 'XPM', 'Pnt', 'Yds.3', 'Pass', 'Rsh', 'Pen', '1stD', '3DConv', '3DAtt', '4DConv', '4DAtt', 'Pen.1', 'Yds.4', 'FL', 'Int', 'TO', 'ToP']
     ['Rk', 'Gtm', 'Week', 'Date', 'Day', 'Home', 'Opp', 'Win', 'Tm_PTS', 'Opp_PTS', 'OT', 'pCmp', 'pAtt', 'pCmp%', 'passYds', 'pTD', 'pY/A', 'pAY/A', 'pRate', 'Sk', 'SaclYds', 'rAtt', 'rushYds', 'rTD', 'rY/A', 'Ply', 'Tot', 'Y/P', 'FGA', 'FGM', 'XPA', 'XPM', 'Pnt', 'PntYds', 'fdPass', 'fdRush', 'fdPen', '1stD', '3DConv', '3DAtt', '4DConv', '4DAtt', 'Pen', 'PenYds', 'FL', 'Int', 'TO', 'ToP']
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
+
 
 |  | Rk | Gtm | Week | Date | Day | Home | Opp | Win | Tm_PTS | Opp_PTS | ... | 4DAtt | Pen | PenYds | FL | Int | TO | ToP | Win_Binary | Is_Home | Margin |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
@@ -193,6 +176,8 @@ nfl_df.head()
 I first wanted to compare the correlation of some categories surrounding
 passing and throwing to winning the game. This was a good start to see
 which stats to dive into deeper.
+
+## Statistical Analysis
 
 ``` python
 from scipy import stats
@@ -401,6 +386,8 @@ plt.show()
 
 The top two attributes seem to be consistent, but a balance offense
 still seems to be the best strategy.
+
+## Key Findings
 
 There seems to be pretty conclusive evidence that both passing and
 rushing are needed as a balanced offense keeps their opponents on their
